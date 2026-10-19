@@ -67,45 +67,45 @@ export const InteractiveQuiz: React.FC<InteractiveQuizProps> = ({
   };
 
   return (
-    <div className="glass-card rounded-2xl p-6 border border-slate-800 my-8 shadow-xl">
+    <div className="glass-card rounded-2xl p-4 sm:p-6 border border-slate-800 my-6 sm:my-8 shadow-xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
         <div>
           <div className="flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-cyan-950 text-cyan-400 border border-cyan-800">
-              <HelpCircle className="w-5 h-5" />
+            <span className="p-1.5 rounded-lg bg-cyan-950 text-cyan-400 border border-cyan-800 flex-shrink-0">
+              <HelpCircle className="w-4 h-4 sm:w-5 sm:h-5" />
             </span>
-            <h3 className="text-lg font-bold text-slate-100">
+            <h3 className="text-base sm:text-lg font-bold text-slate-100">
               單元實戰隨堂測驗
             </h3>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
-            本單元共有 {questions.length} 道精選實戰題，檢驗您對核心觀念與規則的理解
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-1">
+            本單元共有 {questions.length} 道精選題，檢驗您對核心觀念與規則的理解
           </p>
         </div>
 
         {isSubmitted && (
-          <div className="flex items-center gap-3">
-            <div className={`px-3 py-1.5 rounded-xl border flex items-center gap-2 ${
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            <div className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl border flex items-center gap-1.5 ${
               currentScore >= 80 
                 ? 'bg-emerald-950/80 border-emerald-500/50 text-emerald-300' 
                 : 'bg-amber-950/80 border-amber-500/50 text-amber-300'
             }`}>
-              <Award className="w-4 h-4" />
-              <span className="font-bold text-sm">得分：{currentScore} 分</span>
+              <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="font-bold text-xs sm:text-sm">得分：{currentScore} 分</span>
             </div>
             <button
               onClick={handleReset}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition-colors border border-slate-700"
+              className="flex items-center gap-1 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition-colors border border-slate-700 active:scale-95"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              重新作答
+              <RotateCcw className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              <span>重新作答</span>
             </button>
           </div>
         )}
       </div>
 
       {/* 題目列表 */}
-      <div className="space-y-6 mt-6">
+      <div className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
         {questions.map((q, qIndex) => {
           const isMulti = q.correctAnswers.length > 1;
           const userSelected = selectedAnswers[q.id] || [];
@@ -113,15 +113,15 @@ export const InteractiveQuiz: React.FC<InteractiveQuizProps> = ({
           return (
             <div 
               key={q.id}
-              className="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-3"
+              className="p-3.5 sm:p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-3"
             >
-              <div className="flex items-start justify-between gap-3">
-                <span className="text-sm font-semibold text-slate-100 leading-relaxed">
-                  <span className="text-cyan-400 font-mono mr-2">Q{qIndex + 1}.</span>
+              <div className="flex items-start justify-between gap-2 sm:gap-3">
+                <span className="text-xs sm:text-sm font-semibold text-slate-100 leading-relaxed">
+                  <span className="text-cyan-400 font-mono mr-1.5">Q{qIndex + 1}.</span>
                   {q.question}
                 </span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 flex-shrink-0">
-                  {isMulti ? '多選題' : '單選題'}
+                <span className="text-[9.5px] sm:text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 flex-shrink-0">
+                  {isMulti ? '多選' : '單選'}
                 </span>
               </div>
 
@@ -142,7 +142,7 @@ export const InteractiveQuiz: React.FC<InteractiveQuizProps> = ({
                       itemStyle = "bg-slate-950/40 border-slate-800/40 text-slate-500 opacity-60";
                     }
                   } else if (isChecked) {
-                    itemStyle = "bg-cyan-950/70 border-cyan-500/60 text-cyan-200 font-medium";
+                    itemStyle = "bg-cyan-950/70 border-cyan-500/60 text-cyan-200 font-medium ring-1 ring-cyan-500/40";
                   }
 
                   return (
@@ -151,9 +151,9 @@ export const InteractiveQuiz: React.FC<InteractiveQuizProps> = ({
                       type="button"
                       disabled={isSubmitted}
                       onClick={() => handleToggleOption(q.id, optIndex, isMulti)}
-                      className={`text-left p-3 rounded-lg border text-xs transition-all flex items-start gap-3 ${itemStyle}`}
+                      className={`text-left p-3 rounded-lg border text-xs sm:text-sm transition-all flex items-start gap-2.5 sm:gap-3 min-h-[44px] active:scale-[0.99] ${itemStyle}`}
                     >
-                      <div className="mt-0.5">
+                      <div className="mt-0.5 flex-shrink-0">
                         {isSubmitted ? (
                           isCorrect ? (
                             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
@@ -178,11 +178,11 @@ export const InteractiveQuiz: React.FC<InteractiveQuizProps> = ({
 
               {/* 答案解析（送出後顯示） */}
               {isSubmitted && (
-                <div className="mt-3 p-3 rounded-lg bg-slate-950/80 border border-slate-800 text-xs space-y-1">
-                  <div className="text-cyan-400 font-semibold flex items-center gap-1.5">
+                <div className="mt-3 p-3 rounded-lg bg-slate-950/90 border border-slate-800 text-xs sm:text-sm space-y-1">
+                  <div className="text-cyan-400 font-semibold flex items-center gap-1.5 text-xs">
                     <span>💡 題目深度解析：</span>
                   </div>
-                  <p className="text-slate-300 leading-relaxed">
+                  <p className="text-slate-300 leading-relaxed text-xs sm:text-sm">
                     {q.explanation}
                   </p>
                 </div>
@@ -194,11 +194,11 @@ export const InteractiveQuiz: React.FC<InteractiveQuizProps> = ({
 
       {/* 送出作答按鈕 */}
       {!isSubmitted && (
-        <div className="mt-6 flex justify-end">
+        <div className="mt-5 sm:mt-6 flex justify-end">
           <button
             onClick={handleSubmit}
             disabled={Object.keys(selectedAnswers).length < questions.length}
-            className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all shadow-lg ${
+            className={`w-full sm:w-auto px-6 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-lg active:scale-95 ${
               Object.keys(selectedAnswers).length >= questions.length
                 ? 'bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white shadow-cyan-500/20 cursor-pointer'
                 : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'

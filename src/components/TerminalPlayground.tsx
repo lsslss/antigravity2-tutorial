@@ -178,26 +178,26 @@ Agent 即將執行自主探勘、編寫程式碼與多輪自癒修復，直到�
   };
 
   return (
-    <div className="rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 font-mono shadow-2xl my-6">
+    <div className="rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 font-mono shadow-2xl my-4 sm:my-6">
       {/* 終端視窗標題列 */}
-      <div className="bg-slate-900/90 px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-rose-500/80 border border-rose-600/50" />
-            <div className="w-3 h-3 rounded-full bg-amber-500/80 border border-amber-600/50" />
-            <div className="w-3 h-3 rounded-full bg-emerald-500/80 border border-emerald-600/50" />
+      <div className="bg-slate-900/95 px-3 sm:px-4 py-2 sm:py-2.5 border-b border-slate-800 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-rose-500/80 border border-rose-600/50" />
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-500/80 border border-amber-600/50" />
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500/80 border border-emerald-600/50" />
           </div>
-          <span className="text-xs text-slate-400 font-sans ml-2 flex items-center gap-1.5">
-            <Terminal className="w-3.5 h-3.5 text-cyan-400" />
-            lss@mint22: ~/antigravity2 (bash sandboxed)
+          <span className="text-[11px] sm:text-xs text-slate-400 font-sans ml-1 sm:ml-2 flex items-center gap-1.5 truncate">
+            <Terminal className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+            <span className="truncate">lss@mint22: ~/antigravity2</span>
           </span>
         </div>
 
-        <div className="flex items-center gap-2 text-[10px] text-slate-500 font-sans">
-          <span>Linux Mint 22.3</span>
+        <div className="flex items-center gap-2 text-[10px] text-slate-500 font-sans flex-shrink-0">
+          <span className="hidden sm:inline">Linux Mint 22.3</span>
           <button
             onClick={() => handleExecute('clear')}
-            className="text-slate-400 hover:text-slate-200 px-2 py-0.5 rounded bg-slate-800/80 hover:bg-slate-800"
+            className="text-slate-400 hover:text-slate-200 px-2 py-0.5 rounded bg-slate-800/80 hover:bg-slate-800 active:scale-95 transition-transform"
           >
             Clear
           </button>
@@ -206,12 +206,12 @@ Agent 即將執行自主探勘、編寫程式碼與多輪自癒修復，直到�
 
       {/* 演練任務提示卡（若有綁定當前任務） */}
       {currentTask && (
-        <div className="bg-cyan-950/40 border-b border-cyan-800/50 p-4 font-sans flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="bg-cyan-950/40 border-b border-cyan-800/50 p-3.5 sm:p-4 font-sans flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="space-y-1">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs font-bold text-cyan-300 flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                當前實戰任務：{currentTask.title}
+                <Sparkles className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                <span>實戰任務：{currentTask.title}</span>
               </span>
               {isTaskCompleted && (
                 <span className="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-700 text-[10px] flex items-center gap-1">
@@ -229,7 +229,7 @@ Agent 即將執行自主探勘、編寫程式碼與多輪自癒修復，直到�
 
           <button
             onClick={() => handleQuickCommand(currentTask.expectedCommands[0])}
-            className="self-start sm:self-center flex-shrink-0 px-3 py-1.5 rounded-lg bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-200 border border-cyan-500/40 text-xs font-medium transition-all"
+            className="w-full sm:w-auto self-start sm:self-center flex-shrink-0 px-3.5 py-2 sm:py-1.5 rounded-lg bg-cyan-600/30 hover:bg-cyan-600/50 active:bg-cyan-600/60 text-cyan-200 border border-cyan-500/40 text-xs font-medium transition-all text-center"
           >
             一鍵代填推薦指令
           </button>
@@ -237,15 +237,15 @@ Agent 即將執行自主探勘、編寫程式碼與多輪自癒修復，直到�
       )}
 
       {/* 終端訊息流區域 */}
-      <div className="p-4 space-y-4 max-h-96 overflow-y-auto text-xs leading-relaxed select-text">
+      <div className="p-3 sm:p-4 space-y-3 sm:space-y-4 max-h-64 sm:max-h-96 overflow-y-auto text-xs leading-relaxed select-text touch-scroll">
         {history.map((item) => (
           <div key={item.id} className="space-y-1">
-            <div className="flex items-center gap-2 text-slate-400">
-              <span className="text-cyan-400 font-bold">lss@mint22:~$</span>
-              <span className="text-slate-100 font-semibold">{item.command}</span>
-              <span className="text-[10px] text-slate-600 ml-auto">{item.timestamp}</span>
+            <div className="flex items-center gap-1.5 sm:gap-2 text-slate-400 flex-wrap">
+              <span className="text-cyan-400 font-bold text-[11px] sm:text-xs">lss@mint22:~$</span>
+              <span className="text-slate-100 font-semibold break-all text-[11px] sm:text-xs">{item.command}</span>
+              <span className="text-[9.5px] sm:text-[10px] text-slate-600 ml-auto">{item.timestamp}</span>
             </div>
-            <pre className="text-slate-300 whitespace-pre-wrap pl-4 border-l border-slate-800 font-mono text-[11.5px]">
+            <pre className="text-slate-300 whitespace-pre-wrap pl-3 sm:pl-4 border-l border-slate-800 font-mono text-[11px] sm:text-[11.5px] overflow-x-auto">
               {item.output}
             </pre>
           </div>
@@ -253,36 +253,36 @@ Agent 即將執行自主探勘、編寫程式碼與多輪自癒修復，直到�
         <div ref={terminalEndRef} />
       </div>
 
-      {/* 常用推薦快捷按鈕 */}
-      <div className="bg-slate-900/40 px-4 py-2 border-t border-slate-800/60 flex items-center gap-2 overflow-x-auto text-[11px] font-sans">
-        <span className="text-slate-500 flex-shrink-0">快捷常用：</span>
+      {/* 常用推薦快捷按鈕 (橫向流暢滾動) */}
+      <div className="bg-slate-900/60 px-3 sm:px-4 py-2 border-t border-slate-800/60 flex items-center gap-1.5 sm:gap-2 overflow-x-auto text-[11px] font-sans touch-scroll">
+        <span className="text-slate-500 flex-shrink-0 text-[10px] sm:text-[11px]">快捷：</span>
         <button
           onClick={() => handleQuickCommand('ls -la')}
-          className="px-2 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 flex-shrink-0 font-mono"
+          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-slate-300 flex-shrink-0 font-mono text-[10px] sm:text-[11px]"
         >
           ls -la
         </button>
         <button
           onClick={() => handleQuickCommand('cat AGENTS.md')}
-          className="px-2 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 flex-shrink-0 font-mono"
+          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-slate-300 flex-shrink-0 font-mono text-[10px] sm:text-[11px]"
         >
           cat AGENTS.md
         </button>
         <button
           onClick={() => handleQuickCommand('npm run build')}
-          className="px-2 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 flex-shrink-0 font-mono"
+          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-slate-300 flex-shrink-0 font-mono text-[10px] sm:text-[11px]"
         >
           npm run build
         </button>
         <button
           onClick={() => handleQuickCommand('firebase deploy')}
-          className="px-2 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 flex-shrink-0 font-mono"
+          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-slate-300 flex-shrink-0 font-mono text-[10px] sm:text-[11px]"
         >
           firebase deploy
         </button>
         <button
           onClick={() => handleQuickCommand('/goal 實作網站')}
-          className="px-2 py-1 rounded bg-slate-800/80 hover:bg-slate-700 text-cyan-300 flex-shrink-0 font-mono"
+          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-cyan-300 flex-shrink-0 font-mono text-[10px] sm:text-[11px]"
         >
           /goal
         </button>
@@ -294,10 +294,10 @@ Agent 即將執行自主探勘、編寫程式碼與多輪自癒修復，直到�
           e.preventDefault();
           handleExecute();
         }}
-        className="bg-slate-900 px-4 py-3 border-t border-slate-800 flex items-center gap-3"
+        className="bg-slate-900 px-3 sm:px-4 py-2.5 sm:py-3 border-t border-slate-800 flex items-center gap-2 sm:gap-3"
       >
-        <span className="text-cyan-400 font-bold select-none text-xs">
-          lss@mint22:~$
+        <span className="text-cyan-400 font-bold select-none text-[11px] sm:text-xs flex-shrink-0">
+          $
         </span>
         <input
           ref={inputRef}
@@ -305,15 +305,15 @@ Agent 即將執行自主探勘、編寫程式碼與多輪自癒修復，直到�
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="輸入指令（例如：ls -la、npm run build、help）並按 Enter 執行..."
-          className="flex-1 bg-transparent text-slate-100 text-xs focus:outline-none placeholder:text-slate-600 font-mono"
+          placeholder="輸入指令（如 ls -la、npm run build）..."
+          className="flex-1 bg-transparent text-slate-100 text-xs sm:text-xs focus:outline-none placeholder:text-slate-600 font-mono min-w-0"
         />
         <button
           type="submit"
-          className="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-sans font-semibold flex items-center gap-1 transition-colors"
+          className="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 active:bg-cyan-700 text-white text-xs font-sans font-semibold flex items-center gap-1 transition-colors flex-shrink-0"
         >
           <Send className="w-3 h-3" />
-          <span>送出</span>
+          <span className="hidden xs:inline">執行</span>
         </button>
       </form>
     </div>

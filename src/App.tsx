@@ -8,7 +8,7 @@ import { ToolExplorer } from './components/ToolExplorer';
 import { ComparisonMatrix } from './components/ComparisonMatrix';
 import { TerminalPlayground } from './components/TerminalPlayground';
 import { Footer } from './components/Footer';
-import { Sparkles, Terminal, BookOpen, Layers } from 'lucide-react';
+import { Terminal } from 'lucide-react';
 
 const STORAGE_KEY = 'antigravity2_tutorial_progress_v1';
 
@@ -36,6 +36,7 @@ export const App: React.FC = () => {
 
   const [currentTab, setCurrentTab] = useState<'lesson' | 'tools' | 'comparison' | 'terminal'>('lesson');
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
 
   // 當進度變動時持久化存回 LocalStorage
   useEffect(() => {
@@ -55,6 +56,7 @@ export const App: React.FC = () => {
       currentLessonId: id
     }));
     setCurrentTab('lesson');
+    setIsMobileDrawerOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -130,22 +132,25 @@ export const App: React.FC = () => {
         onResetProgress={handleResetProgress}
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}
+        onOpenChapterDrawer={() => setIsMobileDrawerOpen(true)}
       />
 
       {/* 主要內容區域 */}
       <main className="flex-1 flex flex-col">
         {currentTab === 'lesson' && (
           <div className="flex-1 flex flex-col md:flex-row">
-            {/* 左側課程清單 */}
+            {/* 左側課程清單 (桌面常駐，手機抽屜式滑出) */}
             <Sidebar
               lessons={CURRICULUM_DATA}
               currentLessonId={progress.currentLessonId}
               onSelectLesson={handleSelectLesson}
               progress={progress}
+              isMobileDrawerOpen={isMobileDrawerOpen}
+              onCloseMobileDrawer={() => setIsMobileDrawerOpen(false)}
             />
 
             {/* 右側課程詳細閱讀與演練區 */}
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto touch-scroll">
               <LessonView
                 lesson={currentLesson}
                 totalLessons={totalLessons}
@@ -154,6 +159,7 @@ export const App: React.FC = () => {
                 onToggleComplete={handleToggleComplete}
                 onSaveQuizScore={handleSaveQuizScore}
                 onCompletePractice={handleCompletePractice}
+                onOpenChapterDrawer={() => setIsMobileDrawerOpen(true)}
               />
             </div>
           </div>
@@ -172,16 +178,16 @@ export const App: React.FC = () => {
         )}
 
         {currentTab === 'terminal' && (
-          <div className="flex-1 max-w-5xl mx-auto px-4 py-8 w-full space-y-4">
+          <div className="flex-1 max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-8 w-full space-y-4 pb-28 md:pb-16">
             <div className="text-center space-y-2">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950 text-cyan-300 text-xs font-semibold border border-cyan-800">
-                <Terminal className="w-4 h-4" />
+                <Terminal className="w-3.5 h-3.5" />
                 全功能 Linux 沙盒終端練功房
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-100">
                 Linux Mint 22.3 命令演練沙盒
               </h1>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs sm:text-sm text-slate-400 px-2">
                 自由練習 Linux 系統指令、Antigravity CLI (agy)、斜線指令與 Firebase 發布流程
               </p>
             </div>
